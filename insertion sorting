@@ -1,0 +1,58 @@
+/*You are given with an array arr which contains integer elements. Sort these elements in
+ascending order using insertion sort and print the 6th Iteration result.
+Example:
+Input:98,23,45,14,6,67,33,42
+Output:6,14,23,33,45,67,98,42*/
+#include<stdio.h>
+int main()
+{
+	int a[100],i,j,n,temp,k;
+	printf("\nenter the size of array:");
+	scanf("%d",&n);
+	printf("\nenter the elemnts of array:");
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&a[i]);
+	}
+	printf("\narray:");
+	for(i=0;i<n;i++)
+	{
+		printf("  %d",a[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		j=i;
+		while(j>=0 && a[j-1]>a[j])
+		{
+			temp=a[j];
+			a[j]=a[j-1];
+			a[j-1]=temp;
+			j--;
+		}
+		printf("\nIteration %d: ", i);
+	    for(k=0;k<n;k++)
+	    {
+	        printf("%d ", a[k]);
+	    }
+	    printf("\n");
+	    if (i == 5)
+	    {
+	        printf("\nResult after 6th Iteration: ");
+	        for (k = 0; k < n; k++)
+	        {
+	            printf("%d ", a[k]);
+	        }
+	        printf("\n");
+	        
+	    }
+	 }
+	printf("sorted array:");
+	for(i=0;i<n;i++)
+	{
+		printf("%d ",a[i]);
+	}  
+}
+	
+	
+	
+	
