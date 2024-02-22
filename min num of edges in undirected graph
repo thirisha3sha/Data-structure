@@ -1,0 +1,53 @@
+/*You are given an undirected graph G(V, E) with N vertices and M edges. We need to
+find the minimum number of edges between a given pair of vertices (u, v).
+Examples:
+Input: For given graph G. Find minimum number of edges between (1, 5).
+123
+Output: 2
+Explanation:
+(1, 2) and (2, 5) are the only edges resulting into shortest path between 1 and 5*/
+#include<stdio.h>
+#define max_vertices 100
+int main()
+{
+	int n,m,i,u,v,source,destination,queue[max_vertices],front=-1,rear=-1,visited[max_vertices]={0},distance[max_vertices]={0},current;
+	printf("enter the number of vertices and edges:");
+	scanf("%d %d ",&n,&m);
+    int graph[max_vertices][max_vertices]={0};
+    printf("enter the edges(u v)\n");
+    for(i=0;i<m;i++)
+    {
+    	scanf("%d %d ",&u,&v);
+    	graph[u][v]=graph[v][u]=1;
+    	
+	}
+	printf("\nenter the source and destination:\n");
+	scanf("%d %d",&source,&destination);
+	queue[++rear]=source;
+	visited[source]=1;
+	while(front<rear)
+	{
+		current=queue[++front];
+		for(i=1;i<=n;i++)
+		{
+			if(graph[current][i]==1 && !visited[i])
+			{
+				queue[++rear]=i;
+				visited[i]=1;
+				distance[i]=distance[current]+1;
+				if(i==destination)
+				{
+					printf("\nminiumn number of edges between(%d %d):%d",source,destination,distance[i]);
+			    }
+			    else
+			    {
+			    	printf("\nno path found between (%d %d):",source,destination);
+				}
+			}
+		
+		}
+
+	}
+   return 0;
+}
+	
