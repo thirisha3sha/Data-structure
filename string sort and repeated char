@@ -1,0 +1,54 @@
+/*Given a string s, sort it in ascending order and find the starting index of repeated
+character
+Input: s = "tree"
+Output: "eert", starting index 0
+Input: s = "kkj"
+Output: "jkk", starting index : 1
+Example 2:
+Input: s = "cccaaa"
+Output: "aaaccc", starting index 0,3
+Example 3:
+Input: s = "Aabb" */
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+	char s[1000],temp;
+	int i,j,len,index=-1;
+	printf("enter the string:");
+	scanf("%s",s);
+	len=strlen(s);
+	for(i=0;i<len-1;i++)
+	{
+		for(j=0;j<len-i-1;j++)
+		{
+			if(tolower(s[j]>tolower(s[j+1])))
+			{
+				temp=s[j];
+				s[j]=s[j+1];
+				s[j+1]=temp;
+			}
+		}
+	}
+	for(i=0;i<len-1;i++)
+	{
+		if(s[i]==s[i+1])
+		{
+			index=i;
+			break;
+		}
+	}
+	printf("\nsorted string:%s",s);
+	if(index!=-1)
+	{
+		printf("\nstarting index of repeated character:%d",index);
+		
+	}
+	else
+	{
+		printf("\nno repeated characters found:");
+	}
+	return 0;	
+	
+}
