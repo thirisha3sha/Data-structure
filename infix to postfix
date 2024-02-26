@@ -1,0 +1,108 @@
+//infix to postfix
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define MAX_STACK_SIZE 100
+#define MAX_EXPRESSION_SIZE 100
+struct Stack {
+    int top;
+    unsigned capacity;
+    char* array;
+};
+struct Stack* createStack(unsigned capacity) 
+{
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (char*)malloc(stack->capacity * sizeof(char));
+    return stack;
+}
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) 
+{
+    return stack->top == -1;
+}
+// Function to push an element onto the stack
+void push(struct Stack* stack, char item)
+ {
+    stack->array[++stack->top] = item;
+}
+// Function to pop an element from the stack
+char pop(struct Stack* stack) 
+{
+    if (!isEmpty(stack))
+        return stack->array[stack->top--];
+    return '$';
+}
+// Function to return the top element of the stack without popping it
+char peek(struct Stack* stack) 
+{
+    if (!isEmpty(stack))
+        return stack->array[stack->top];
+    return '$';
+}
+// Function to check if the character is an operator
+int isOperator(char ch) 
+{
+    return (ch == '+' || ch == '-' || ch == '*' || ch == '/');
+}
+// Function to get the precedence of the operator
+int precedence(char ch) 
+{
+    switch (ch) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+    }
+    return -1;
+}
+// Function to convert infix expression to postfix
+void infixToPostfix(char* expression) 
+{
+    int i, k;
+    struct Stack* stack = createStack(MAX_STACK_SIZE);
+// Iterate through each character of the infix expression
+    for (i = 0, k = -1; expression[i]; ++i)
+	 {
+        // If the character is an operand, add it to the postfix expression
+        if (isalnum(expression[i]))
+            expression[++k] = expression[i];
+        // If the character is an opening parenthesis, push it onto the stack
+        else if (expression[i] == '(')
+            push(stack, expression[i]);
+        // If the character is a closing parenthesis, pop operators from the stack and add them to the postfix expression until an opening parenthesis is encountered
+        else if (expression[i] == ')') {
+            while (!isEmpty(stack) && peek(stack) != '(')
+                expression[++k] = pop(stack);
+            if (!isEmpty(stack) && peek(stack) != '(')
+                return; // Invalid expression
+            else
+                pop(stack);
+        }
+        // If the character is an operator, pop operators from the stack and add them to the postfix expression based on precedence rules
+        else {
+            while (!isEmpty(stack) && precedence(expression[i]) <= precedence(peek(stack)))
+                expression[++k] = pop(stack);
+            push(stack, expression[i]);
+        }
+    }
+
+    // Pop any remaining operators from the stack and add them to the postfix expression
+    while (!isEmpty(stack))
+        expression[++k] = pop(stack);
+
+    expression[++k] = '\0';
+    printf("Postfix expression: %s\n", expression);
+}
+int main() 
+{
+    char expression[MAX_EXPRESSION_SIZE];
+    printf("Enter infix expression: ");
+    fgets(expression, MAX_EXPRESSION_SIZE, stdin);
+    infixToPostfix(expression);
+    return 0;
+}
