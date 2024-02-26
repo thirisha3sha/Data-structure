@@ -1,0 +1,46 @@
+/*9. You are given with the following linked list
+The digits are stored in the above order, you are asked to print the list in reverse order.*/
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+void insert(struct Node** head_ref, int new_data) 
+{
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+void printReverse(struct Node* head)
+ {
+    if (head == NULL)
+	 {
+        return;
+    }
+    printReverse(head->next);
+    printf("%d ", head->data);
+}
+
+int main() 
+{
+    struct Node* head = NULL;
+    insert(&head, 3);
+    insert(&head, 6);
+    insert(&head, 9);
+    insert(&head, 12);
+    insert(&head, 15);
+	printf("Original linked list: ");
+    struct Node* current = head;
+    while (current != NULL) 
+	{
+        printf("%d ", current->data);
+        current = current->next;
+    }
+
+    printf("\nReversed linked list: ");
+    printReverse(head);
+
+    return 0;
+}
