@@ -1,0 +1,94 @@
+/*Implement a first in first out (FIFO) queue using only two stacks. The implemented
+queue should support all the functions of a normal queue (push,
+peek, pop, and empty).
+Implement the MyQueue class:
+1. void push(int x) Pushes element x to the back of the queue.
+2. int pop() Removes the element from the front of the queue and returns it.
+3. int peek() Returns the element at the front of the queue.
+4. boolean empty() Returns true if the queue is empty, false otherwise.
+Input
+["MyQueue", "push", "push", "peek", "pop", "empty"]
+[[], [1], [2], [], [], []]
+Output
+[null, null, null, 1, 1, false]
+Explanation:
+MyQueue myQueue = new MyQueue();
+myQueue.push(1);
+myQueue.push(2);
+myQueue.peek();
+myQueue.pop();
+myQueue.empty();*/
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 10
+int stack1[MAX_SIZE];
+int stack2[MAX_SIZE];
+int top1 = -1;
+int top2 = -1;
+void push(int x) 
+{
+ if (top1 == MAX_SIZE - 1) 
+ {
+	 printf("Queue is full. Cannot push.\n");
+	 return;
+ }
+ stack1[++top1] = x;
+ printf("Pushed: %d\n", x);
+}
+int pop()
+ {
+ if (top1 == -1 && top2 == -1) 
+ {
+	 printf("Queue is empty. Cannot pop.\n");
+	 return -1;
+ }
+ if (top2 == -1)
+ {
+	 while (top1 != -1) 
+	 {
+	    stack2[++top2] = stack1[top1--];
+	 }
+ }
+ int popped = stack2[top2--];
+ printf("Popped: %d\n", popped);
+ return popped;
+}
+int peek() 
+{
+ if (top1 == -1 && top2 == -1)
+ {
+	 printf("Queue is empty. Cannot peek.\n");
+	 return -1;
+ }
+ if (top2 == -1) 
+ {
+	 while (top1 != -1) 
+	 {
+	    stack2[++top2] = stack1[top1--];
+	 }
+ }
+ int front = stack2[top2];
+ printf("Peek: %d\n", front);
+ return front;
+}
+int empty()
+{
+    return (top1 == -1 && top2 == -1);
+}
+int main() 
+{
+ push(1);
+ push(2);
+ push(3);
+ peek();
+ pop();
+ peek();
+ push(4);
+ push(5);
+ while (!empty())
+ {
+   pop();
+ }
+ pop();
+ return 0;
+}
