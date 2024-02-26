@@ -1,0 +1,84 @@
+/*Design a stack that supports push, pop, top, and retrieving the minimum element in
+constant time.
+Implement the MinStack class:
+1. MinStack() initializes the stack object.
+2. void push(int val) pushes the element val onto the stack.
+3. void pop() removes the element on the top of the stack.
+4. int top() gets the top element of the stack.
+5. int getMin() retrieves the minimum element in the stack.
+Input
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+Output
+[null,null,null,null,-3,null,0,-2]
+Explanation:
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // return -3
+minStack.pop();
+minStack.top(); // return 0
+minStack.getMin(); // return -2 */
+#include <stdio.h>
+#include <stdlib.h>
+struct node 
+{
+    int label;
+    struct node *next;
+};
+
+int main() 
+{
+    int ch = 0;
+    struct node *temp, *h, *head;
+    head = (struct node*) malloc(sizeof(struct node));
+    head->next = NULL;
+	while (1) {
+        printf("\n Stack using Linked List \n");
+        printf("1->Push ");
+        printf("2->Pop ");
+        printf("3->View ");
+        printf("4->Exit \n");
+        printf("Enter your choice : ");
+        scanf("%d", &ch);
+		switch (ch) {
+            case 1:
+                temp = (struct node*)malloc(sizeof(struct node));
+                printf("Enter label for new node : ");
+                scanf("%d", &temp->label);
+                h = head;
+                temp->next = h->next;
+                h->next = temp;
+                break;
+            case 2:
+                h = head->next;
+                if (h != NULL) 
+				{
+                    head->next = h->next;
+                    printf("Node %d deleted\n", h->label);
+                    free(h);
+                } else 
+				{
+                    printf("Stack is empty. Cannot pop.\n");
+                }
+                break;
+            case 3:
+                printf("\n HEAD -> ");
+                h = head;
+                while (h->next != NULL)
+				{
+                    h = h->next;
+                    printf("%d -> ", h->label);
+                }
+                printf("NULL \n");
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+
+    return 0;
+}
