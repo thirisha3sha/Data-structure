@@ -1,0 +1,57 @@
+//dfs
+#include <stdio.h>
+
+int n, i, j, visited[10];
+int adj[10][10];
+
+void dfs(int v) {
+    // Mark the current vertex as visited
+    visited[v] = 1;
+    printf("%d ", v); // Print the visited vertex
+    
+    // Visit all adjacent vertices of the current vertex
+    for (i = 1; i <= n; i++) {
+        if (adj[v][i] && !visited[i]) {
+            dfs(i);
+        }
+    }
+}
+
+int main() {
+    int v;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    
+    printf("Enter graph data in matrix form:\n");
+    for (i = 1; i <= n; i++) {
+        for (j = 1; j <= n; j++) {
+            scanf("%d", &adj[i][j]);
+        }
+    }
+    
+    for (i = 1; i <= n; i++) {
+        visited[i] = 0;
+    }
+    
+    printf("Enter the starting vertex: ");
+    scanf("%d", &v);
+    printf("DFS traversal starting from vertex %d: ", v);
+    dfs(v);
+    
+    // Check if all nodes are reachable
+    int allNodesReachable = 1;
+    for (i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            allNodesReachable = 0;
+            break;
+        }
+    }
+    
+    if (allNodesReachable) {
+        printf("\nDFS traversal is complete. All nodes are reachable.\n");
+    } else {
+        printf("\nDFS is not possible. Not all nodes are reachable.\n");
+    }
+    
+    return 0;
+}
