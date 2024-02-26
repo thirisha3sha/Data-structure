@@ -1,0 +1,93 @@
+/*Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the
+input string is valid.
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+Input: s = "()"
+Output: true
+Input: s = "()[]{}"
+Output: true
+Input: s = "(]"
+Output: false
+Input: s = "([)]"
+Output: false
+Input: s = "{[]}"
+Output: true*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure to represent a stack
+struct Stack {
+    char* array;
+    int top;
+    unsigned capacity;
+};
+
+// Function to create a stack of given capacity
+struct Stack* createStack(unsigned capacity) {
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (char*)malloc(stack->capacity * sizeof(char));
+    return stack;
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return stack->top == -1;
+}
+
+// Function to push an element to the stack
+void push(struct Stack* stack, char item) {
+    stack->array[++stack->top] = item;
+}
+
+// Function to pop an element from the stack
+char pop(struct Stack* stack) {
+    if (!isEmpty(stack))
+        return stack->array[stack->top--];
+    return '\0';
+}
+
+// Function to check if the input string containing brackets is valid
+int isValid(char* s) {
+    int len = strlen(s);
+    struct Stack* stack = createStack(len);
+
+    for (int i = 0; i < len; i++) {
+        if (s[i] == '(' || s[i] == '{' || s[i] == '[')
+            push(stack, s[i]);
+        else {
+            if (isEmpty(stack))
+                return 0;
+
+            char top = pop(stack);
+
+            if ((s[i] == ')' && top != '(') ||
+                (s[i] == '}' && top != '{') ||
+                (s[i] == ']' && top != '[')) {
+                return 0;
+            }
+        }
+    }
+
+    return isEmpty(stack);
+}
+
+int main() {
+    char s1[] = "()";
+    char s2[] = "()[]{}";
+    char s3[] = "(]";
+    char s4[] = "([)]";
+    char s5[] = "{[]}";
+
+    printf("Input: %s\nOutput: %s\n", s1, isValid(s1) ? "true" : "false");
+    printf("Input: %s\nOutput: %s\n", s2, isValid(s2) ? "true" : "false");
+    printf("Input: %s\nOutput: %s\n", s3, isValid(s3) ? "true" : "false");
+    printf("Input: %s\nOutput: %s\n", s4, isValid(s4) ? "true" : "false");
+    printf("Input: %s\nOutput: %s\n", s5, isValid(s5) ? "true" : "false");
+
+    return 0;
+}
