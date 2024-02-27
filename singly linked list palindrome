@@ -17,32 +17,33 @@ int isPalindrome(char* str, int length)
  {
     int i = 0, j = length - 1;
     while (i < j)
-    {
-      if (str[i] != str[j]) 
-      {
-         return 0;
-      }
-      i++;
-      j--;
+	 {
+        if (str[i] != str[j]) 
+		{
+            return 0;
+        }
+        i++;
+        j--;
     }
     return 1;
 }
-int main() 
-{
- char arr1[] = {'R', 'A', 'D', 'A', 'R'};
- int length1 = sizeof(arr1) / sizeof(arr1[0]);
- printf("Input: R->A->D->A->R\nOutput: %s\n", isPalindrome(arr1, length1) ? "Yes" :"No");
- char arr2[] = {'C', 'O', 'D', 'E'};
- int length2 = sizeof(arr2) / sizeof(arr2[0]);
- printf("Input: C->O->D->E\nOutput: %s\n", isPalindrome(arr2, length2) ? "Yes" :"No");
- char arr3[] = {'b', 'b', 'A', 'a'};
- int length3 = sizeof(arr3) / sizeof(arr3[0]);
- printf("Output: \"bbAa\", starting index 0,2\n");
- char arr4[]={1,2,2,1};
- int length4=sizeof(arr4)/sizeof(arr4[0]);
- printf("intput: 1,2,2,1\n output:%s\n",isPalindrome(arr4,length4)?"yes":"No");
- char arr5[]={1,2};
- int length5=sizeof(arr5)/sizeof(arr5[0]);
- printf("intput: 1,2\n output:%s\n",isPalindrome(arr5,length5)?"yes":"No");
- return 0;
+int main() {
+    char arr[100]; 
+    int length;
+	printf("Enter the characters (separated by spaces, end with 'x'):\n");
+	char ch;
+    int index = 0;
+    while (1) {
+        scanf(" %c", &ch);
+        if (ch == 'x') 
+		{
+            arr[index] = '\0';
+            break;
+        }
+        arr[index++] = ch;
+    }
+	length = index;
+	printf("Output: \"%s\", starting index 0,%d\n", arr, length - 2);
+	printf("Output: %s\n", isPalindrome(arr, length) ? "Yes" : "No");
+	return 0;
 }
